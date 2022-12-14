@@ -1,33 +1,57 @@
 from rest_framework import serializers
-from .models import Category, Item
+from .models import *
 
 class CategorySerializer(serializers.Serializer):
-    category_name = serializers.CharField(max_length=20)
-    code = serializers.CharField(max_length=8)
+    name = serializers.CharField(max_length=20)
+    description = serializers.CharField(max_length=50)
 
     def create(self, validated_data):
         return Category.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.category_name = validated_data['category_name']
-        instance.code = validated_data['code']
+        instance.id = validated_data['id']
+        instance.name = validated_data['category']
+        instance.description = validated_data['description']
         instance.save()
         return instance
 
 
 
-class ItemSerializer(serializers.Serializer):
-    item_name = serializers.CharField(max_length=30)
-    price = serializers.IntegerField()
-    category_id = serializers.IntegerField()
+    def validate_name(self, value):
+        for i in value:
+            if i in '!@#$%^&*':
+                raise serializers.ValidationError('В name не должно содержать  такие символы как !@#$%^&*')
+        return value
+
+
+
+class ItemSerializer(serializers.ModelSerializer):
+    # item_id = serializers.CharField(max_length=10)
+    # name = serializers.CharField(max_length=30)
+    # category_id = serializers.IntegerField()
+    # price = serializers.IntegerField()
+    #QR = serializers.CharField(max_length=10, validators='get_qr',)
+
+
+    class Meta:
+        model = Item
+        fields = '__all__'
+        read_only_fields = ['QR',]
+
+
+
+
 
     def create(self, validated_data):
         return Item.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.item_name = validated_data['item_name']
-        instance.price = validated_data['price']
+        instance.item_id = validated_data['item_id']
+        instance.name = validated_data['name']
         instance.category_id = validated_data['category_id']
+        instance.price = validated_data['price']
+        instance.QR = validated_data['item_id'], validated_data['price'], validated_data['item_id']
         instance.save()
         return instance
+
 
