@@ -51,4 +51,8 @@ class ItemSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
+    def validate_name(self, value):
+        for i in value:
+            if i in '!@#$%^&*':
+                raise serializers.ValidationError('В name не должно содержать  такие символы как !@#$%^&*')
+        return value
