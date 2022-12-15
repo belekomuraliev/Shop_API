@@ -9,8 +9,7 @@ class CategorySerializer(serializers.Serializer):
         return Category.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.id = validated_data['id']
-        instance.name = validated_data['category']
+        instance.name = validated_data['name']
         instance.description = validated_data['description']
         instance.save()
         return instance
@@ -47,7 +46,6 @@ class ItemSerializer(serializers.ModelSerializer):
         instance.name = validated_data['name']
         instance.category = validated_data['category']
         instance.price = validated_data['price']
-        #instance.QR = validated_data['item_id'], validated_data['price'], validated_data['item_id']
         instance.save()
         return instance
 
