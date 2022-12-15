@@ -1,6 +1,8 @@
 import json
 
 from shop.models import Category, Item
+from shop.serializers import *
+
 
 with open('category.json', 'r') as file:
     category_data= json.load(file)

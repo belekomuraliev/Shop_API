@@ -39,18 +39,15 @@ class ItemSerializer(serializers.ModelSerializer):
         read_only_fields = ['QR',]
 
 
-
-
-
     def create(self, validated_data):
         return Item.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.item_id = validated_data['item_id']
         instance.name = validated_data['name']
-        instance.category_id = validated_data['category_id']
+        instance.category = validated_data['category']
         instance.price = validated_data['price']
-        instance.QR = validated_data['item_id'], validated_data['price'], validated_data['item_id']
+        #instance.QR = validated_data['item_id'], validated_data['price'], validated_data['item_id']
         instance.save()
         return instance
 

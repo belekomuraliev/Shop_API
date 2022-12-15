@@ -13,4 +13,4 @@ class ItemViewSet(viewsets.ModelViewSet):
     serializer_class = ItemSerializer
 
     def perform_create(self, serializer):
-        serializer.save(QR='3C350P42')
+        serializer.save(QR=f'{self.request.data["item_id"]}C{self.request.data["price"]}P{self.request.data["item_id"]}I ')

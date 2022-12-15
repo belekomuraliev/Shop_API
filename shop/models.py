@@ -15,7 +15,4 @@ class Item(models.Model):
     QR = models.CharField(max_length=10, null=True)
 
     def __str__(self):
-        return self.name
-
-    def det_qr(self):
-        return f'{self.price}{self.item_id}'
+        return f'{self.name} - {self.price} - {self.item_id}'
